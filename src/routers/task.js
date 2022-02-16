@@ -49,15 +49,12 @@ router.get("/tasks", auth, async (req, res) => {
             options: { // добавляем ещё опции к запросу, удобно, а дальше само
                 limit: parseInt(req.query.limit), // если придёт пустота  - будет проигнорирован
                 skip: parseInt(req.query.skip),
-                // sort: {
-                //     completed: -1 // (1 === asc, -1 === desc) // если поле буедт неизвестным, то проигнорируется
-                // }
-                sort // опять короткая запись
+                sort 
             }
         }) 
         res.send(req.user.tasks)
     } catch (e) {
-        res.status(500).send() // проблема  на стороне сервера 
+        res.status(500).send(e) // проблема  на стороне сервера 
     }
 
 })
@@ -78,12 +75,8 @@ router.get("/tasks/:id", auth, async (req, res) => {
         }
         res.send(task)
     } catch (e) {
-        res.status(500).send() // проблема  на стороне сервера 
+        res.status(500).send(e) // проблема  на стороне сервера 
     }
-
-    // console.log(req.params) // это парметры из адресной строки
-    // console.log(req.query) // это апрметры после "?"
-
 })
 
 router.patch('/tasks/:id', auth, async (req, res) => {
@@ -133,7 +126,7 @@ router.delete("/tasks/:id", auth, async (req, res) => {
         }
         res.send(task)
     } catch (e) {
-        res.status(500).send() // проблема  на стороне сервера 
+        res.status(500).send(e) // проблема  на стороне сервера 
     }
 
 })

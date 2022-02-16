@@ -14,7 +14,7 @@ router.get("/users", async (req, res) => {
         const users = await User.find({})
         res.send(users)
     } catch (e) {
-        res.status(500).send() // проблема чисто на стороне сервера 
+        res.status(500).send(e) // проблема чисто на стороне сервера 
     }
 })
 
@@ -23,7 +23,7 @@ router.get("/users/me", auth, async (req, res) => { // ручка чтобы п�
     try {
         res.send(req.user) // потому что его  проставили в хендлере
     } catch (e) {
-        res.status(500).send() // проблема чисто на стороне сервера 
+        res.status(500).send(e) // проблема чисто на стороне сервера 
     }
 })
 
@@ -53,7 +53,7 @@ router.patch('/users/me', auth, async (req, res) => {
 
         res.send(user)
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 })
 
@@ -66,7 +66,7 @@ router.delete('/users/me', auth, async (req, res) => {
         sendGoodbyeEmail(req.user.email, req.user.name)
         res.send(req.user)
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 })
 
@@ -92,7 +92,7 @@ router.post('/users/login', async (req, res) => {
         // res.send({user : user.getPublicProfile(), token}) // короткая запись, на выходе {user: user, token:token} причём юзер - объект, т.е. {user: {user}, token:token}
     } catch (e) { // добавился ^ ещё один метод в модель
         // console.log(e)
-        res.status(400).send()
+        res.status(400).send(e)
     }
 })
 
@@ -105,7 +105,7 @@ router.post('/users/logout', auth, async (req, res) => {
         await req.user.save() // схоронили обновление
         res.send()
     } catch(e) {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 })
 
@@ -115,7 +115,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         await req.user.save() // схоронили обновление
         res.send()
     } catch(e) {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 })
 
@@ -148,7 +148,7 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) 
         await req.user.save()
         res.send()
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 }, (error, req, res, next) => {
     return res.status(400).send({error: error.message})
@@ -163,7 +163,7 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
         await req.user.save()
         res.send()
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 
 })
@@ -182,7 +182,7 @@ router.get('/users/:id/avatar', async (req, res) => {
         res.send(user.avatar)
 
     } catch (e) {
-        res.status(404).send()
+        res.status(404).send(e)
     }
 })
 

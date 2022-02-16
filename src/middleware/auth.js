@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user')
 
 const auth = async (req, res, next) => {
-    console.log('AUTH')
 
     try {
         const token = req.header('Authorization').replace('Bearer ', '') // заччем сначала добавляли, потмо удаляли?
@@ -16,8 +15,6 @@ const auth = async (req, res, next) => {
         if (!user) {
             throw new Error()
         }
-
-        // console.log(user)
 
         req.token = token // тоже на будущее
         req.user = user // засовываем уже найденого пользователя в запрос, чтобы  не искать его ещё раз в хендлере 
